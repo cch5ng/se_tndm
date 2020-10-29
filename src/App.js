@@ -1,7 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import {getRandomIndexes} from './util';
 
 function App() {
+
+  //tests
+  console.log('getRandomIndexes(10, 10)', getRandomIndexes(10, 10));
+
   return (
     <div className="App">
       <header className="App-header">
