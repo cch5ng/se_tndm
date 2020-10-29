@@ -1,11 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 import {getRandomIndexes} from './util';
+import Data from './Apprentice_TandemFor400_Data.json';
 
 function App() {
+  let totalQuestionsCount = Data.length;
 
   //tests
   console.log('getRandomIndexes(10, 10)', getRandomIndexes(10, 10));
+
+  console.log('getRandomIndexes(totalQuestionsCount, 10)', getRandomIndexes(totalQuestionsCount, 10));
 
   return (
     <div className="App">
