@@ -3,10 +3,18 @@ import './App.css';
 import {getRandomIndexes} from './util';
 import Data from './Apprentice_TandemFor400_Data.json';
 
+const IDX_TO_LETTER_OPTION = {
+  '0': 'a',
+  '1': 'b',
+  '2': 'c',
+  '3': 'd'
+}
+
 function App() {
   let totalQuestionsCount = Data.length;
 
   const [currentQuizQuestionIndexes, setCurrentQuizQuestionIndexes] = useState([]);
+  const [currentQuizAnswersIndexes, setcurentQuizAnswersIndexes] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentQuizAnswers, setCurrentQuizAnswers] = useState({}); // key should be question name
   const [currentQuizScore, setCurrentQuizScore] = useState(null);
@@ -27,6 +35,7 @@ function App() {
     if (currentQuestionIndex < 9) {
       //handle next button
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      getRandomAnswersIndexes();
     } else {
       //handle done btn click
       //trigger scoring
@@ -40,6 +49,19 @@ function App() {
     let currentQuizRandomQuestionIndexes = getRandomIndexes(totalQuestionsCount, 10);
     console.log('currentQuizRandomQuestionIndexes', currentQuizRandomQuestionIndexes);
     setCurrentQuizQuestionIndexes(currentQuizRandomQuestionIndexes);
+    let questionIdx = currentQuizRandomQuestionIndexes[0];
+    let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
+    let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
+    setcurentQuizAnswersIndexes(randomAnswersIndexes);
+  }
+
+  const getRandomAnswersIndexes = () => {
+    let questionIdx = currentQuizQuestionIndexes[currentQuestionIndex];
+    console.log('questionIdx', questionIdx)
+    let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
+    let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
+    console.log('randomAnswersIndexes', randomAnswersIndexes)
+    setcurentQuizAnswersIndexes(randomAnswersIndexes);
   }
 
   const scoreQuiz = () => {
@@ -51,7 +73,6 @@ function App() {
   let curDataIndex = currentQuizQuestionIndexes[currentQuestionIndex];
   let curQuestion = Data[curDataIndex];
   let buttonLabel = currentQuestionIndex < 9 ? 'Next': 'Done';
-
 
   return (
     <div className="App">
@@ -74,6 +95,19 @@ function App() {
             <div>
               <h1>Question</h1>
               <div>{curQuestion.question}</div>
+            </div>
+            <div>
+              <h1>Answers</h1>
+              {currentQuizAnswersIndexes.map((answerIdx, idx) => {
+                let answer = answerIdx === curQuestion.incorrect.length ? curQuestion.correct : curQuestion.incorrect[answerIdx];
+                let idxStr = idx.toString();
+                let letter = IDX_TO_LETTER_OPTION[idxStr];
+                return (
+                  <div>
+                    {letter}. {answer}
+                  </div>
+                )
+              })}
             </div>
             <div><button onClick={handleNextBtnClick}>{buttonLabel}</button></div>
           </React.Fragment>
