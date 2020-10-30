@@ -2,3 +2,12 @@
   text-align: center;
 }
 
+/* ANSWER */
+
+.answer {
+  width: 90%;
+  margin: 15px auto;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
