@@ -68,6 +68,8 @@ function App() {
     let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
     setcurentQuizAnswersIndexes(randomAnswersIndexes);
     setCurrentQuizAnswers({});
+    setCurrentQuizScore(null);
+    setCurrentQuestionWasAnswered(false);
   }
 
   const getRandomAnswersIndexes = (curQuestionIdx) => {
@@ -78,7 +80,16 @@ function App() {
   }
 
   const scoreQuiz = () => {
-    
+    let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
+    let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
+      let dataIdxNum = parseInt(cur, 10);
+      if (currentQuizAnswers[cur] === Data[dataIdxNum].correct) {
+        accum += 1;
+      }
+      return accum;
+    }, 0)
+    console.log('curScore', curScore);
+    setCurrentQuizScore(curScore);
   }
 
   //tests
@@ -130,7 +141,7 @@ function App() {
         {appState === 2 && (
           <React.Fragment>
             <div>Training is done</div>
-            <div>This is your score ... TODO.</div>
+            <div>Your score is {currentQuizScore}.</div>
             {currentQuestionWasAnswered === true && (
               <button onClick={handleStartQuiz}>Train Again</button>          
             )}
