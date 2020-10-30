@@ -16,6 +16,7 @@ function App() {
   const [currentQuizQuestionIndexes, setCurrentQuizQuestionIndexes] = useState([]);
   const [currentQuizAnswersIndexes, setcurentQuizAnswersIndexes] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentQuestionWasAnswered, setCurrentQuestionWasAnswered] = useState(false);
   const [currentQuizAnswers, setCurrentQuizAnswers] = useState({}); // key should be question name
   const [currentQuizScore, setCurrentQuizScore] = useState(null);
   const [appState, setAppState] = useState(0); //0 - not started; 1 - quiz in session; 2 - quiz was completed
@@ -25,10 +26,17 @@ function App() {
     setAppState(1);
   }
 
-  const handleAnswerSubmit = () => {
+  const handleAnswerSubmit = (ev) => {
     //store the answer
     //evaluate if answer is correct
     //increment curQuestionIndex
+    if (!currentQuestionWasAnswered) {
+      let {id} = ev.target;
+      let questionIdxInData = currentQuizQuestionIndexes[currentQuestionIndex];
+      let keyStr = questionIdxInData.toString();
+      setCurrentQuizAnswers({...currentQuizAnswers, [keyStr]: id});
+      setCurrentQuestionWasAnswered(true);  
+    }
   }  
 
   const handleNextBtnClick = () => {
@@ -37,9 +45,12 @@ function App() {
       let nextQuestionIdx = currentQuestionIndex + 1;
       setCurrentQuestionIndex(nextQuestionIdx);
       getRandomAnswersIndexes(nextQuestionIdx);
+      setCurrentQuestionWasAnswered(false);
     } else {
       //handle done btn click
       //trigger scoring
+      console.log('currentQuizAnswers', currentQuizAnswers);
+      scoreQuiz();
       setAppState(2);
     }
   }
@@ -48,7 +59,7 @@ function App() {
   //1 first time doing training for that session
   //nth time doing training for that session (see which items in state should be reset to initial values)
   const initQuiz = () => {
-    //console.log('getRandomIndexes(totalQuestionsCount, 10)', getRandomIndexes(totalQuestionsCount, 10));
+    setCurrentQuestionIndex(0);
     let currentQuizRandomQuestionIndexes = getRandomIndexes(totalQuestionsCount, 10);
     console.log('currentQuizRandomQuestionIndexes', currentQuizRandomQuestionIndexes);
     setCurrentQuizQuestionIndexes(currentQuizRandomQuestionIndexes);
@@ -56,23 +67,32 @@ function App() {
     let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
     let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
     setcurentQuizAnswersIndexes(randomAnswersIndexes);
+    setCurrentQuizAnswers({});
+    setCurrentQuizScore(null);
+    setCurrentQuestionWasAnswered(false);
   }
 
   const getRandomAnswersIndexes = (curQuestionIdx) => {
     let questionIdx = currentQuizQuestionIndexes[curQuestionIdx];
-    console.log('questionIdx', questionIdx)
     let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
     let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
-    console.log('randomAnswersIndexes', randomAnswersIndexes)
     setcurentQuizAnswersIndexes(randomAnswersIndexes);
   }
 
   const scoreQuiz = () => {
-    
+    let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
+    let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
+      let dataIdxNum = parseInt(cur, 10);
+      if (currentQuizAnswers[cur] === Data[dataIdxNum].correct) {
+        accum += 1;
+      }
+      return accum;
+    }, 0)
+    console.log('curScore', curScore);
+    setCurrentQuizScore(curScore);
   }
 
   //tests
-  //console.log('getRandomIndexes(10, 10)', getRandomIndexes(10, 10));
   let curDataIndex = currentQuizQuestionIndexes[currentQuestionIndex];
   let curQuestion = Data[curDataIndex];
   let buttonLabel = currentQuestionIndex < 9 ? 'Next': 'Done';
@@ -106,20 +126,25 @@ function App() {
                 let idxStr = idx.toString();
                 let letter = IDX_TO_LETTER_OPTION[idxStr];
                 return (
-                  <div key={answer}>
+                  <div onClick={handleAnswerSubmit} key={answer} id={answer} className="answer">
                     {letter}. {answer}
                   </div>
                 )
               })}
             </div>
-            <div><button onClick={handleNextBtnClick}>{buttonLabel}</button></div>
+            {currentQuestionWasAnswered === true && (
+              <div><button onClick={handleNextBtnClick}>{buttonLabel}</button></div>
+            )}
           </React.Fragment>
         )}
 
         {appState === 2 && (
           <React.Fragment>
             <div>Training is done</div>
-            <button onClick={handleStartQuiz}>Train Again</button>
+            <div>Your score is {currentQuizScore}.</div>
+            {currentQuestionWasAnswered === true && (
+              <button onClick={handleStartQuiz}>Train Again</button>          
+            )}
           </React.Fragment>
         )}
   
