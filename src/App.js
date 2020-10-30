@@ -49,6 +49,7 @@ function App() {
   //nth time doing training for that session (see which items in state should be reset to initial values)
   const initQuiz = () => {
     //console.log('getRandomIndexes(totalQuestionsCount, 10)', getRandomIndexes(totalQuestionsCount, 10));
+    setCurrentQuestionIndex(0);
     let currentQuizRandomQuestionIndexes = getRandomIndexes(totalQuestionsCount, 10);
     console.log('currentQuizRandomQuestionIndexes', currentQuizRandomQuestionIndexes);
     setCurrentQuizQuestionIndexes(currentQuizRandomQuestionIndexes);
