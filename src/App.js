@@ -24,7 +24,14 @@ function App() {
   }  
 
   const handleNextBtnClick = () => {
-
+    if (currentQuestionIndex < 9) {
+      //handle next button
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      //handle done btn click
+      //trigger scoring
+      setAppState(2);
+    }
   }
 
   const initQuiz = () => {
@@ -33,13 +40,17 @@ function App() {
     let currentQuizRandomQuestionIndexes = getRandomIndexes(totalQuestionsCount, 10);
     console.log('currentQuizRandomQuestionIndexes', currentQuizRandomQuestionIndexes);
     setCurrentQuizQuestionIndexes(currentQuizRandomQuestionIndexes);
+  }
 
+  const scoreQuiz = () => {
+    
   }
 
   //tests
   //console.log('getRandomIndexes(10, 10)', getRandomIndexes(10, 10));
   let curDataIndex = currentQuizQuestionIndexes[currentQuestionIndex];
   let curQuestion = Data[curDataIndex];
+  let buttonLabel = currentQuestionIndex < 9 ? 'Next': 'Done';
 
 
   return (
@@ -64,6 +75,7 @@ function App() {
               <h1>Question</h1>
               <div>{curQuestion.question}</div>
             </div>
+            <div><button onClick={handleNextBtnClick}>{buttonLabel}</button></div>
           </React.Fragment>
         )}
 
