@@ -34,8 +34,9 @@ function App() {
   const handleNextBtnClick = () => {
     if (currentQuestionIndex < 9) {
       //handle next button
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      getRandomAnswersIndexes();
+      let nextQuestionIdx = currentQuestionIndex + 1;
+      setCurrentQuestionIndex(nextQuestionIdx);
+      getRandomAnswersIndexes(nextQuestionIdx);
     } else {
       //handle done btn click
       //trigger scoring
@@ -43,8 +44,10 @@ function App() {
     }
   }
 
+  //should handle cases
+  //1 first time doing training for that session
+  //nth time doing training for that session (see which items in state should be reset to initial values)
   const initQuiz = () => {
-    console.log('TODO INIT QUIZ')
     //console.log('getRandomIndexes(totalQuestionsCount, 10)', getRandomIndexes(totalQuestionsCount, 10));
     let currentQuizRandomQuestionIndexes = getRandomIndexes(totalQuestionsCount, 10);
     console.log('currentQuizRandomQuestionIndexes', currentQuizRandomQuestionIndexes);
@@ -55,8 +58,8 @@ function App() {
     setcurentQuizAnswersIndexes(randomAnswersIndexes);
   }
 
-  const getRandomAnswersIndexes = () => {
-    let questionIdx = currentQuizQuestionIndexes[currentQuestionIndex];
+  const getRandomAnswersIndexes = (curQuestionIdx) => {
+    let questionIdx = currentQuizQuestionIndexes[curQuestionIdx];
     console.log('questionIdx', questionIdx)
     let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
     let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
@@ -103,7 +106,7 @@ function App() {
                 let idxStr = idx.toString();
                 let letter = IDX_TO_LETTER_OPTION[idxStr];
                 return (
-                  <div>
+                  <div key={answer}>
                     {letter}. {answer}
                   </div>
                 )
@@ -114,7 +117,10 @@ function App() {
         )}
 
         {appState === 2 && (
-          <div>Training is done</div>
+          <React.Fragment>
+            <div>Training is done</div>
+            <button onClick={handleStartQuiz}>Train Again</button>
+          </React.Fragment>
         )}
   
       </main>
