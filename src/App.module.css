@@ -1,7 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 .App {
   text-align: center;
   padding: 20px;
-  font-family: 'Poppins', sans-serif;
 }
 
 
@@ -11,7 +17,7 @@
   min-height: 70px;
   color: #fff;
   font-size: 1.5em;
-  padding-top: 30px;
+  padding-top: 15px;
   border-bottom: 10px solid #5d4789;
 }
 
@@ -20,4 +26,21 @@
   margin-top: 50px;
   padding: 20px;
   border: 2px dashed #002d72;
+}
+
+.button {
+  min-width: 110px;
+  margin-top: 20px;
+  padding: 8px;
+  background-color: #5d4789;
+  color: #fff;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 8px;
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+  background-color: #8d7eac;
 }
