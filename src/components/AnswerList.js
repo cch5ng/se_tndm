@@ -7,8 +7,8 @@ function AnswerList(props) {
   let {answers, onClickHandler, currentQuestionWasAnswered} = props;
   
   return (
-    <div>
-      <h1>Answers</h1>
+    <div className={styles.answer_list_container}>
+      <h2>(choose one)</h2>
       {answers.map(answer => {
         let answerClassName = cx({
           answer: true,

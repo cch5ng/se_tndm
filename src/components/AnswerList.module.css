@@ -1,24 +1,27 @@
-/* ANSWER */
+.answer_list_container {
+  margin-top: 15px;
+}
 
 .answer {
   width: 90%;
   margin: 15px auto;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #002d72;
   border-radius: 8px;
 }
 
 .answer:hover,
 .answer:focus,
 .answer:active {
-  border: 1px solid #d68cff;
-  background-color: #f2dcff;
+  background-color: #4c6c9c;
 }
 
 .correct {
-  border: 1px solid #04946c;
+  border: 2px solid #04946c;
+  background-color: #4fb498;
 }
 
 .incorrect {
-  border: 1px solid #d84242;
+  border: 2px solid #d84242;
+  background-color: #e78d8d;
 }

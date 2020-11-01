@@ -141,29 +141,28 @@ function App() {
 
         {appState === 1 && (
           <React.Fragment>
-            <div>Training in session</div>
             <div>
-              <h1>Question</h1>
-              <div>{curQuestion.question}</div>
+              <h1>Q{currentQuestionIndex + 1}: {curQuestion.question}</h1>
             </div>
-
 
             <AnswerList answers={getCurrentAnswersRandom()} 
               onClickHandler={handleAnswerSubmit} 
               currentQuestionWasAnswered={currentQuestionWasAnswered}/>
 
             {currentQuestionWasAnswered === true && (
-              <div><button onClick={handleNextBtnClick}>{buttonLabel}</button></div>
+              <div>
+                <button className={styles.button} onClick={handleNextBtnClick}>{buttonLabel}</button>
+              </div>
             )}
           </React.Fragment>
         )}
 
         {appState === 2 && (
           <React.Fragment>
-            <div>Training is done</div>
-            <div>Your score is {currentQuizScore}.</div>
+            <h1>Your score is {currentQuizScore}</h1>
+            <h2>Congratulations on completing this session!</h2>
             {currentQuestionWasAnswered === true && (
-              <button onClick={handleStartQuiz}>Train Again</button>          
+              <button className={styles.button} onClick={handleStartQuiz}>Try Again</button>          
             )}
           </React.Fragment>
         )}
