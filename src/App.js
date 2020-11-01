@@ -75,7 +75,6 @@ function App() {
   const scoreQuiz = () => {
     let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
     let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
-      let dataIdxNum = parseInt(cur, 10);
       if (currentQuizAnswers[cur].isCorrect) {
         accum += 1;
       }

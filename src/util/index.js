@@ -1,12 +1,16 @@
  
 const getRandomIndexes = (length, maxSize) => {
   let randomIndexes = [];
+  let orderedIndexes = [];
+
+  for (let i = 0; i < length; i++) {
+    orderedIndexes.push(i);
+  }
   
   while (randomIndexes.length < maxSize) {
-    let randomNum = getRandomInt(length);
-    if (randomIndexes.indexOf(randomNum) === -1) {
-      randomIndexes.push(randomNum);
-    }
+    let randomIdx = getRandomInt(orderedIndexes.length);
+    let removedNum = orderedIndexes.splice(randomIdx, 1);
+    randomIndexes.push(removedNum[0]);
   }
   return randomIndexes;
 }
