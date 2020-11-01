@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {getRandomIndexes} from './util';
 import Data from './Apprentice_TandemFor400_Data.json';
+import AnswerList from './components/AnswerList';
 
 const IDX_TO_LETTER_OPTION = {
   '0': 'a',
@@ -14,7 +15,7 @@ function App() {
   let totalQuestionsCount = Data.length;
 
   const [currentQuizQuestionIndexes, setCurrentQuizQuestionIndexes] = useState([]);
-  const [currentQuizAnswersIndexes, setcurentQuizAnswersIndexes] = useState([]);
+  const [currentQuizRandomAnswersIndexes, setCurrentQuizRandomAnswersIndexes] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentQuestionWasAnswered, setCurrentQuestionWasAnswered] = useState(false);
   const [currentQuizAnswers, setCurrentQuizAnswers] = useState({}); // key should be question name
@@ -26,15 +27,27 @@ function App() {
     setAppState(1);
   }
 
-  const handleAnswerSubmit = (ev) => {
+  const handleAnswerSubmit = (id) => {
     //store the answer
     //evaluate if answer is correct
     //increment curQuestionIndex
     if (!currentQuestionWasAnswered) {
-      let {id} = ev.target;
+      //let {id} = ev.target; //answer string
       let questionIdxInData = currentQuizQuestionIndexes[currentQuestionIndex];
       let keyStr = questionIdxInData.toString();
-      setCurrentQuizAnswers({...currentQuizAnswers, [keyStr]: id});
+      let isCorrect;
+      //let dataIdxNum = parseInt(id, 10);
+      //if (id === Data[questionIdxInData].correct) {
+        //accum += 1;
+      //}
+
+      setCurrentQuizAnswers(
+        {...currentQuizAnswers, 
+          [keyStr]: {
+            answer: id,
+            isCorrect: id === Data[questionIdxInData].correct
+          }
+        });
       setCurrentQuestionWasAnswered(true);  
     }
   }  
@@ -66,7 +79,7 @@ function App() {
     let questionIdx = currentQuizRandomQuestionIndexes[0];
     let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
     let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
-    setcurentQuizAnswersIndexes(randomAnswersIndexes);
+    setCurrentQuizRandomAnswersIndexes(randomAnswersIndexes);
     setCurrentQuizAnswers({});
     setCurrentQuizScore(null);
     setCurrentQuestionWasAnswered(false);
@@ -76,20 +89,51 @@ function App() {
     let questionIdx = currentQuizQuestionIndexes[curQuestionIdx];
     let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
     let randomAnswersIndexes = getRandomIndexes(totalAnswersCount, totalAnswersCount);
-    setcurentQuizAnswersIndexes(randomAnswersIndexes);
+    setCurrentQuizRandomAnswersIndexes(randomAnswersIndexes);
   }
 
   const scoreQuiz = () => {
     let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
     let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
       let dataIdxNum = parseInt(cur, 10);
-      if (currentQuizAnswers[cur] === Data[dataIdxNum].correct) {
+      if (currentQuizAnswers[cur].isCorrect) {
         accum += 1;
       }
       return accum;
     }, 0)
     console.log('curScore', curScore);
     setCurrentQuizScore(curScore);
+  }
+
+  const getCurrentAnswersRandom = () => {
+    //get current question
+    let curQuestion = Data[curDataIndex];
+    //use logic to randomize the answers
+    let answers = [];
+    currentQuizRandomAnswersIndexes.forEach(answerIdx => {
+      let answer = {};
+      let body;
+      let isCorrect;
+      let userSelected;
+      if (answerIdx === curQuestion.incorrect.length) {
+        body = curQuestion.correct;
+        isCorrect = true;
+      } else {
+        body = curQuestion.incorrect[answerIdx];
+        isCorrect = false;
+      }
+      let curDataIdxStr = curDataIndex.toString();
+      if (currentQuizAnswers[curDataIdxStr] && currentQuizAnswers[curDataIdxStr].answer === body) {
+        userSelected = true;
+      } else {
+        userSelected = false;
+      }
+      answer.body = body;
+      answer.isCorrect = isCorrect;
+      answer.userSelected = userSelected;
+      answers.push(answer);
+    })
+    return answers;
   }
 
   //tests
@@ -119,19 +163,12 @@ function App() {
               <h1>Question</h1>
               <div>{curQuestion.question}</div>
             </div>
-            <div>
-              <h1>Answers</h1>
-              {currentQuizAnswersIndexes.map((answerIdx, idx) => {
-                let answer = answerIdx === curQuestion.incorrect.length ? curQuestion.correct : curQuestion.incorrect[answerIdx];
-                let idxStr = idx.toString();
-                let letter = IDX_TO_LETTER_OPTION[idxStr];
-                return (
-                  <div onClick={handleAnswerSubmit} key={answer} id={answer} className="answer">
-                    {letter}. {answer}
-                  </div>
-                )
-              })}
-            </div>
+
+
+            <AnswerList answers={getCurrentAnswersRandom()} 
+              onClickHandler={handleAnswerSubmit} 
+              currentQuestionWasAnswered={currentQuestionWasAnswered}/>
+
             {currentQuestionWasAnswered === true && (
               <div><button onClick={handleNextBtnClick}>{buttonLabel}</button></div>
             )}
