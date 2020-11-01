@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.App_header {
+  font-family: 'Rajdhani', sans-serif;
+  background-color: #008080;
+  min-height: 70px;
+  color: #fff;
+  font-size: 1.5em;
+  padding-top: 30px;
+  border-bottom: 10px solid #5d4789;
+}
+
+.main {
+  min-height: 150px;
+  margin-top: 50px;
+  padding: 20px;
+  border: 2px dashed #002d72;
+}

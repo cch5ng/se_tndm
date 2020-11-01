@@ -1,15 +1,8 @@
 import React, {useState} from 'react';
-import './App.css';
+import styles from './App.module.css';
 import {getRandomIndexes} from './util';
 import Data from './Apprentice_TandemFor400_Data.json';
 import AnswerList from './components/AnswerList';
-
-const IDX_TO_LETTER_OPTION = {
-  '0': 'a',
-  '1': 'b',
-  '2': 'c',
-  '3': 'd'
-}
 
 function App() {
   let totalQuestionsCount = Data.length;
@@ -28,19 +21,9 @@ function App() {
   }
 
   const handleAnswerSubmit = (id) => {
-    //store the answer
-    //evaluate if answer is correct
-    //increment curQuestionIndex
     if (!currentQuestionWasAnswered) {
-      //let {id} = ev.target; //answer string
       let questionIdxInData = currentQuizQuestionIndexes[currentQuestionIndex];
       let keyStr = questionIdxInData.toString();
-      let isCorrect;
-      //let dataIdxNum = parseInt(id, 10);
-      //if (id === Data[questionIdxInData].correct) {
-        //accum += 1;
-      //}
-
       setCurrentQuizAnswers(
         {...currentQuizAnswers, 
           [keyStr]: {
@@ -61,8 +44,6 @@ function App() {
       setCurrentQuestionWasAnswered(false);
     } else {
       //handle done btn click
-      //trigger scoring
-      console.log('currentQuizAnswers', currentQuizAnswers);
       scoreQuiz();
       setAppState(2);
     }
@@ -74,7 +55,6 @@ function App() {
   const initQuiz = () => {
     setCurrentQuestionIndex(0);
     let currentQuizRandomQuestionIndexes = getRandomIndexes(totalQuestionsCount, 10);
-    console.log('currentQuizRandomQuestionIndexes', currentQuizRandomQuestionIndexes);
     setCurrentQuizQuestionIndexes(currentQuizRandomQuestionIndexes);
     let questionIdx = currentQuizRandomQuestionIndexes[0];
     let totalAnswersCount = Data[questionIdx].incorrect.length + 1;
@@ -101,7 +81,6 @@ function App() {
       }
       return accum;
     }, 0)
-    console.log('curScore', curScore);
     setCurrentQuizScore(curScore);
   }
 
@@ -142,18 +121,22 @@ function App() {
   let buttonLabel = currentQuestionIndex < 9 ? 'Next': 'Done';
 
   return (
-    <div className="App">
-      <header className="App-header">
-        TRIVIA BOOTCAMP
+    <div className={styles.App}>
+      <header className={styles.App_header}>
+        Trivia Bootcamp
       </header>
-      <main>
+      <main className={styles.main}>
         {/* different states
           1 quiz has not started yet
           2 quiz is in session
           3 quiz has ended
         */}
         {appState === 0 && (
-          <button onClick={handleStartQuiz}>Start Training</button>
+          <React.Fragment>
+            <div>Welcome to Trivia Bootcamp </div>
+            <div>We'll help you test your knowledge of the lesser known factoids of the universe. Try it and see if your pursuit of trivia might bring you fame and riches. Just kidding, just hours of entertainment and boasting points.</div>
+            <button className={styles.button} onClick={handleStartQuiz}>Start Training</button>
+          </React.Fragment>
         )}
 
         {appState === 1 && (
