@@ -1,0 +1,24 @@
+/* ANSWER */
+
+.answer {
+  width: 90%;
+  margin: 15px auto;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.answer:hover,
+.answer:focus,
+.answer:active {
+  border: 1px solid #d68cff;
+  background-color: #f2dcff;
+}
+
+.correct {
+  border: 1px solid #04946c;
+}
+
+.incorrect {
+  border: 1px solid #d84242;
+}

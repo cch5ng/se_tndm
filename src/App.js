@@ -114,6 +114,7 @@ function App() {
       let answer = {};
       let body;
       let isCorrect;
+      let userSelected;
       if (answerIdx === curQuestion.incorrect.length) {
         body = curQuestion.correct;
         isCorrect = true;
@@ -121,8 +122,15 @@ function App() {
         body = curQuestion.incorrect[answerIdx];
         isCorrect = false;
       }
+      let curDataIdxStr = curDataIndex.toString();
+      if (currentQuizAnswers[curDataIdxStr] && currentQuizAnswers[curDataIdxStr].answer === body) {
+        userSelected = true;
+      } else {
+        userSelected = false;
+      }
       answer.body = body;
       answer.isCorrect = isCorrect;
+      answer.userSelected = userSelected;
       answers.push(answer);
     })
     return answers;
@@ -157,8 +165,9 @@ function App() {
             </div>
 
 
-            <AnswerList answers={getCurrentAnswersRandom()} onClickHandler={handleAnswerSubmit}/>
-
+            <AnswerList answers={getCurrentAnswersRandom()} 
+              onClickHandler={handleAnswerSubmit} 
+              currentQuestionWasAnswered={currentQuestionWasAnswered}/>
 
             {currentQuestionWasAnswered === true && (
               <div><button onClick={handleNextBtnClick}>{buttonLabel}</button></div>
