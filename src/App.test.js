@@ -22,6 +22,10 @@ test('click start button', () => {
   const buttonElement = screen.getByText(/Start Training/i);
   fireEvent.click(buttonElement);
 
-  const answerDiv = screen.getAllByText(/Q*?/i);
-  expect(answerDiv.length).toBeGreaterThan(1);
+  const questionDiv = screen.getAllByText(/Q*?/i);
+  expect(questionDiv.length).toBeGreaterThan(1);
+
+  const answerButton = screen.getAllByRole('button');
+  expect(answerButton.length).toBeGreaterThanOrEqual(3);
+
 });
