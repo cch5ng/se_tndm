@@ -73,17 +73,6 @@ function App() {
     setCurrentQuizRandomAnswersIndexes(randomAnswersIndexes);
   }
 
-  // const scoreQuiz = () => {
-  //   let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
-  //   let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
-  //     if (currentQuizAnswers[cur].isCorrect) {
-  //       accum += 1;
-  //     }
-  //     return accum;
-  //   }, 0)
-  //   setCurrentQuizScore(curScore);
-  // }
-
   const getCurrentAnswersRandom = () => {
     //get current question
     let curQuestion = Data[curDataIndex];
