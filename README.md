@@ -41,7 +41,7 @@ It might be more fun to add a way to play against random players who are online 
 
 To enforce consistency, it would be helpful to use TypeScript. I have used it on a couple of projects but lately ran into hiccups configuring it with webpack along with CSS processors and decided to leave it out here.
 
-## Requirements
+## (Provided) Requirements
 
 * A round of trivia has 10 Questions
 * All questions are multiple-choice questions
@@ -49,7 +49,7 @@ To enforce consistency, it would be helpful to use TypeScript. I have used it on
 * Results can update on form submit, button click, or any interaction you choose
 * We will provide you with the trivia data such as the questions, correct and incorrect answers via a JSON file.
 
-## Acceptance Criteria
+## (Provided) Acceptance Criteria
 
 * A user can view questions.
 * Questions with their multiple choice options must be displayed one at a time. Questions should not repeat in a round.
