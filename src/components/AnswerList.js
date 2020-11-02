@@ -19,7 +19,8 @@ function AnswerList(props) {
         return (
           <div onClick={(ev) => onClickHandler(ev.target.id)} 
             key={answer.body} id={answer.body} className={answerClassName}
-            iscorrect={answer.isCorrect.toString()}>
+            iscorrect={answer.isCorrect.toString()}
+            role="button">
             {answer.body}
           </div>
         )
