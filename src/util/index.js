@@ -20,4 +20,16 @@ const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-export {getRandomIndexes};
+const scoreQuiz = (currentQuizAnswers) => {
+  let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
+  let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
+    if (currentQuizAnswers[cur].isCorrect) {
+      accum += 1;
+    }
+    return accum;
+  }, 0)
+  return curScore;
+}
+
+
+export {getRandomIndexes, scoreQuiz};

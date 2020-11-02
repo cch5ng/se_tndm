@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './App.module.css';
-import {getRandomIndexes} from './util';
+import {getRandomIndexes, scoreQuiz} from './util';
 import Data from './Apprentice_TandemFor400_Data.json';
 import AnswerList from './components/AnswerList';
 
@@ -44,7 +44,8 @@ function App() {
       setCurrentQuestionWasAnswered(false);
     } else {
       //handle done btn click
-      scoreQuiz();
+      let curScore = scoreQuiz(currentQuizAnswers);
+      setCurrentQuizScore(curScore);
       setAppState(2);
     }
   }
@@ -72,16 +73,16 @@ function App() {
     setCurrentQuizRandomAnswersIndexes(randomAnswersIndexes);
   }
 
-  const scoreQuiz = () => {
-    let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
-    let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
-      if (currentQuizAnswers[cur].isCorrect) {
-        accum += 1;
-      }
-      return accum;
-    }, 0)
-    setCurrentQuizScore(curScore);
-  }
+  // const scoreQuiz = () => {
+  //   let currentQuizQuestionIndexesInDataStr = Object.keys(currentQuizAnswers);
+  //   let curScore = currentQuizQuestionIndexesInDataStr.reduce((accum, cur) => {
+  //     if (currentQuizAnswers[cur].isCorrect) {
+  //       accum += 1;
+  //     }
+  //     return accum;
+  //   }, 0)
+  //   setCurrentQuizScore(curScore);
+  // }
 
   const getCurrentAnswersRandom = () => {
     //get current question
