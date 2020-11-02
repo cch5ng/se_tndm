@@ -27,6 +27,12 @@ From the root project directory, run:
 
 ## Known Issues
 
+I had some challenges with implementing a test related to game state. For example one of the tests for the App component was giving unexpected results where parts of the resulting question view were rendering in a repetitive way, after clicking the Start button (although after each cleanup was applied and I could not reproduce that issue in the running application). As a result, I did not test certain items after that part of the user flow:
+
+* Missing test to check if the conditional Next button is hidden/rendered to the page
+
+* Missing test to check if the conditional Done button is hidden/rendered to the page
+
 A small item I might change would be to define global variables using Sass variables for colors used in this main theme and items like font sizes, colors, common spacings. For this project instance it was not difficult to keep this relatively consistent because I was working independently but in a project with larger scope, I think it would be more effective to have global styles centrally organized.
 
 In this version I used the App.module.css file as a kind of global style container. I also chose to use CSS modules in order to avoid classname conflicts across different components.
@@ -41,7 +47,7 @@ It might be more fun to add a way to play against random players who are online 
 
 To enforce consistency, it would be helpful to use TypeScript. I have used it on a couple of projects but lately ran into hiccups configuring it with webpack along with CSS processors and decided to leave it out here.
 
-## Requirements
+## (Provided) Requirements
 
 * A round of trivia has 10 Questions
 * All questions are multiple-choice questions
@@ -49,7 +55,7 @@ To enforce consistency, it would be helpful to use TypeScript. I have used it on
 * Results can update on form submit, button click, or any interaction you choose
 * We will provide you with the trivia data such as the questions, correct and incorrect answers via a JSON file.
 
-## Acceptance Criteria
+## (Provided) Acceptance Criteria
 
 * A user can view questions.
 * Questions with their multiple choice options must be displayed one at a time. Questions should not repeat in a round.
